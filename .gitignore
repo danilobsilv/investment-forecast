@@ -130,3 +130,4 @@ dist
 .pnp.*
 eslint.config.mjs
 tsconfig.json
+*.js    
