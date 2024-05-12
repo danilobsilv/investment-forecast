@@ -17,8 +17,6 @@ export default class UserService implements UserRepository {
             userDTO.UserType = req.body.UserType;
             userDTO.UserStatus = req.body.UserStatus;
 
-
-
             const newUser = await UserModel.create(userDTO);
 
             return res.status(201).json({ newUser, message: "User successfully created." });
