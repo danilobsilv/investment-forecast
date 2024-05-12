@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db_conn = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+require('dotenv').config();
 const uri = "mongodb+srv://danilobsilv:kdqq4W1ZPKOo1HxV@test-cluster.kpwralm.mongodb.net/?retryWrites=true&w=majority&appName=test-cluster";
+//const uri = process.env.CONN_STRING_TEST_CLUSTER
 function db_conn() {
     return __awaiter(this, void 0, void 0, function* () {
         const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };

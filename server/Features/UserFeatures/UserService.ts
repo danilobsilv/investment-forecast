@@ -1,14 +1,15 @@
-import mongoose from "mongoose";
 import { UserDTO } from "./UserDTO"
 import type UserRepository from "./UserRepository"
 import UserModel from "./UserModel";
-
+import CustomError from "../../Middleware/ErrorHandler"
 
 export default class UserService implements UserRepository {
     async createUser(req: any, res: any, next: any): Promise<void> {
-        try{
+        try {
 
             const userDTO = new UserDTO();
+
+            userDTO.UserId = req.body.UserId;
             userDTO.UserFullName = req.body.UserFullName;
             userDTO.UserNickname = req.body.UserNickname;
             userDTO.UserPassword = req.body.UserPassword;
@@ -16,16 +17,18 @@ export default class UserService implements UserRepository {
             userDTO.UserType = req.body.UserType;
             userDTO.UserStatus = req.body.UserStatus;
 
-            console.log(userDTO);
 
-            const newUser = await UserModel.create(userDTO)
-            return res.status(201).json({newUser, message: "User successfully created."})
-        }
-        catch (error:any){
-            console.log("erro na aplicação: " + error.message);
-            return res.status(501).json({Error: "Error creating user: " + error.message});
+
+            const newUser = await UserModel.create(userDTO);
+
+            return res.status(201).json({ newUser, message: "User successfully created." });
+
+        } catch (error: any) {
+            console.log(error.message)
+            return res.status(500).json({ Error: error.message });
         }
     }
+
 
     async deleteUser(req: any, res: any, next: any): Promise<void> {
     }

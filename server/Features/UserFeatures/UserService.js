@@ -19,20 +19,19 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userDTO = new UserDTO_1.UserDTO();
-                userDTO.userId = req.body.userId;
+                userDTO.UserId = req.body.UserId;
                 userDTO.UserFullName = req.body.UserFullName;
                 userDTO.UserNickname = req.body.UserNickname;
                 userDTO.UserPassword = req.body.UserPassword;
                 userDTO.UserAge = req.body.UserAge;
                 userDTO.UserType = req.body.UserType;
                 userDTO.UserStatus = req.body.UserStatus;
-                console.log(userDTO);
                 const newUser = yield UserModel_1.default.create(userDTO);
                 return res.status(201).json({ newUser, message: "User successfully created." });
             }
             catch (error) {
-                console.log("erro na aplicação: " + error.message);
-                return res.status(501).json({ Error: "Error creating user: " + error.message });
+                console.log(error.message);
+                return res.status(500).json({ Error: error.message });
             }
         });
     }

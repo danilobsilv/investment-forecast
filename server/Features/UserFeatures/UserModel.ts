@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
-const {Schema} = mongoose;
+
+const { Schema } = mongoose;
 
 const UserSchema = new Schema({
+    UserId: {
+        type: Schema.Types.String,
+        required: true
+    },
     UserFullName: {
         type: Schema.Types.String,
         required: true
@@ -26,9 +31,7 @@ const UserSchema = new Schema({
         type: Schema.Types.String,
         required: true
     }
-},
-    {timestamps: true}
-);
+}, { timestamps: true });
 
 const UserModel = mongoose.model("UserModel", UserSchema);
 export default UserModel;

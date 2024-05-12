@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserDTO = void 0;
 class UserDTO {
     constructor() {
-        this.userId = undefined;
-        this.UserFullName = undefined;
-        this.UserNickname = undefined;
-        this.UserPassword = undefined;
-        this.UserAge = undefined;
-        this.UserType = undefined;
-        this.UserStatus = undefined;
+        this.UserId = "";
+        this.UserFullName = "";
+        this.UserNickname = "";
+        this.UserPassword = "";
+        this.UserAge = 0;
+        this.UserType = "";
+        this.UserStatus = "";
     }
     checkPasswordLen() {
-        return !(this.UserPassword && this.UserPassword.length < 6);
+        return !!(this.UserPassword && this.UserPassword.length >= 6);
     }
 }
 exports.UserDTO = UserDTO;

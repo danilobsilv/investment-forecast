@@ -10,11 +10,11 @@ const cors_1 = __importDefault(require("cors"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const helmet_1 = __importDefault(require("helmet"));
 const connect_1 = require("./Database/connect");
-const router_1 = require("./Routes/router");
+const router_1 = __importDefault(require("./Routes/router"));
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
-app.use("/api", router_1.router);
+app.use("/api", router_1.default);
 app.use((0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
     limit: 100,

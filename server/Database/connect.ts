@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-const uri = "mongodb+srv://danilobsilv:kdqq4W1ZPKOo1HxV@test-cluster.kpwralm.mongodb.net/?retryWrites=true&w=majority&appName=test-cluster";
+require('dotenv').config();
 
+const uri = "mongodb+srv://danilobsilv:kdqq4W1ZPKOo1HxV@test-cluster.kpwralm.mongodb.net/?retryWrites=true&w=majority&appName=test-cluster";
+//const uri = process.env.CONN_STRING_TEST_CLUSTER
 export async function db_conn() {
 
   const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
@@ -14,4 +16,3 @@ export async function db_conn() {
     console.error(`Error connecting to the database: ${error}`);
   }
 }
-''
