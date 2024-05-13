@@ -44,16 +44,28 @@ export default class UserService implements UserRepository {
            }
            const deletedUser = await UserModel.findByIdAndDelete(userId)
 
-           res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
+           return res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
 
        }
        catch(error: any){
            console.log("Error: ", error.message);
-           res.status(500).json({msg: error.message})
+           return res.status(500).json({msg: error.message})
        }
     }
 
     async getAllUsers(req: any, res: any, next: any): Promise<void> {
+        try{
+            const users = await UserModel.find();
+
+            if (!users){
+                return res.status(404).json({msg: "There Are No Users"});
+            }
+
+            res.json(users);
+        }
+        catch(error: any){
+            res.status(500).json({InternalServerError: error.message});
+        }
     }
 
     async getUserById(req: any, res: any, next: any): Promise<void> {

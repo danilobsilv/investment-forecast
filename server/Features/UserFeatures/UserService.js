@@ -41,7 +41,6 @@ class UserService {
             try {
                 const userId = req.params.userId;
                 if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
-                    console.log("não tá validando o object id");
                     return res.status(400).json({ msg: "Invalid User Id" });
                 }
                 const user = yield UserModel_1.default.findById(userId);
@@ -49,16 +48,26 @@ class UserService {
                     return res.status(404).json({ msg: "User Not Found" });
                 }
                 const deletedUser = yield UserModel_1.default.findByIdAndDelete(userId);
-                res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
+                return res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
             }
             catch (error) {
                 console.log("Error: ", error.message);
-                res.status(500).json({ msg: error.message });
+                return res.status(500).json({ msg: error.message });
             }
         });
     }
     getAllUsers(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const users = yield UserModel_1.default.find();
+                if (!users) {
+                    return res.status(404).json({ msg: "There Are No Users" });
+                }
+                res.json(users);
+            }
+            catch (error) {
+                res.status(500).json({ InternalServerError: error.message });
+            }
         });
     }
     getUserById(req, res, next) {
