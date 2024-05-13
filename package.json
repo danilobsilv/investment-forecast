@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && nodemon ./server/server.ts"
+    "start": "tsc && nodemon ./server/app.ts"
   },
   "keywords": [],
   "author": "",

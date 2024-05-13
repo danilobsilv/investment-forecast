@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const UserDTO_1 = require("./UserDTO");
 const UserModel_1 = __importDefault(require("./UserModel"));
+const mongoose_1 = __importDefault(require("mongoose"));
 class UserService {
     createUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -37,6 +38,23 @@ class UserService {
     }
     deleteUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.params.userId;
+                if (!mongoose_1.default.Types.ObjectId.isValid(userId)) {
+                    console.log("não tá validando o object id");
+                    return res.status(400).json({ msg: "Invalid User Id" });
+                }
+                const user = yield UserModel_1.default.findById(userId);
+                if (!user) {
+                    return res.status(404).json({ msg: "User Not Found" });
+                }
+                const deletedUser = yield UserModel_1.default.findByIdAndDelete(userId);
+                res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
+            }
+            catch (error) {
+                console.log("Error: ", error.message);
+                res.status(500).json({ msg: error.message });
+            }
         });
     }
     getAllUsers(req, res, next) {

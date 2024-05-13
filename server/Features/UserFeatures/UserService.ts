@@ -1,7 +1,8 @@
 import { UserDTO } from "./UserDTO"
 import type UserRepository from "./UserRepository"
 import UserModel from "./UserModel";
-import CustomError from "../../Middleware/ErrorHandler"
+import CustomError from "../../Middleware/ErrorHandler" 
+import mongoose from "mongoose";
 
 export default class UserService implements UserRepository {
     async createUser(req: any, res: any, next: any): Promise<void> {
@@ -29,6 +30,28 @@ export default class UserService implements UserRepository {
 
 
     async deleteUser(req: any, res: any, next: any): Promise<void> {
+       try {
+           const userId = req.params.userId;
+
+           if (!mongoose.Types.ObjectId.isValid(userId)) {
+               console.log("não tá validando o object id")
+               return res.status(400).json({msg:"Invalid User Id"})
+           }
+
+           const user = await UserModel.findById(userId)
+
+           if (!user){
+               return res.status(404).json({msg: "User Not Found"})
+           }
+           const deletedUser = await UserModel.findByIdAndDelete(userId)
+
+           res.status(204).json({ user: deletedUser, msg: "User Successfully Deleted" });
+
+       }
+       catch(error: any){
+           console.log("Error: ", error.message);
+           res.status(500).json({msg: error.message})
+       }
     }
 
     async getAllUsers(req: any, res: any, next: any): Promise<void> {

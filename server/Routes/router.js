@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const router = require('express').Router();
-const UserController_1 = require("../Features/UserFeatures/UserController");
-router.route("/user").post((req, res, next) => UserController_1.UserController.createUser(req, res, next));
+const UserRouter_1 = __importDefault(require("../Features/UserFeatures/UserRouter"));
+router.use("/", UserRouter_1.default);
 exports.default = router;
