@@ -34,7 +34,6 @@ export default class UserService implements UserRepository {
            const userId = req.params.userId;
 
            if (!mongoose.Types.ObjectId.isValid(userId)) {
-               console.log("não tá validando o object id")
                return res.status(400).json({msg:"Invalid User Id"})
            }
 
