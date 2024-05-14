@@ -3,9 +3,10 @@ import type UserRepository from "./UserRepository"
 import UserModel from "./UserModel";
 import CustomError from "../../Middleware/ErrorHandler" 
 import mongoose from "mongoose";
+import { Request, Response, NextFunction } from "express";
 
 export default class UserService implements UserRepository {
-    async createUser(req: any, res: any, next: any): Promise<void> {
+    async createUser(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
 
             const userDTO = new UserDTO();
@@ -20,11 +21,11 @@ export default class UserService implements UserRepository {
 
             const newUser = await UserModel.create(userDTO);
 
-            return res.status(201).json({ newUser, message: "User successfully created." });
+            res.status(201).json({ newUser, message: "User successfully created." });
 
         } catch (error: any) {
             console.log(error.message)
-            return res.status(500).json({ Error: error.message });
+            res.status(500).json({ Error: error.message });
         }
     }
 
@@ -69,8 +70,34 @@ export default class UserService implements UserRepository {
     }
 
     async getUserById(req: any, res: any, next: any): Promise<void> {
+        try{
+            const userId = req.params.userId;
+
+            if (!mongoose.Types.ObjectId.isValid(userId)){
+                res.status(400).json({msg: "Invalid User Id"});
+            }
+
+            const user = await UserModel.findById(userId);
+
+            if (!user){
+                res.status(404).json({msg: "User Not Found"})
+            }
+            res.json(user)
+        }
+        catch(error: any){
+            res.status(500).json({InternalServerError: error.message})
+        }
     }
 
     async updateUser(req: any, res: any, next: any): Promise<void> {
-    }
+        try{
+
+        }
+        catch(error: any){
+
+        }
+        {
+
+
+        }    }
 }
